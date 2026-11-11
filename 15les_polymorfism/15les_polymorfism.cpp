@@ -87,33 +87,42 @@ public:
 	Shape():name("-"){}
 	Shape(string n):name(n){}
 	
-	void show() {
+	virtual void show() {
 		cout << "name: " << name << endl;
 	}
 	virtual void getArea() {
 		cout << "i will count soon" << endl;
 	}
 
-	void print() {
+	virtual void print() {
 		cout << name << endl;
 		
 	}
 };
 
-class Rectangle:public Shape {
+class Rectangle1:public Shape {
 	int width;
 	int height;
 public:
-	Rectangle(int w,int h):width(w),height(h){}
+	Rectangle1(int w,int h):Shape("Rectangle"),width(w),height(h){}
 	
 	void getArea()override {
 		cout << "rectangle area: " << width * height << endl;
 	}
 
-	void print() {
+	void print()override {
 		Shape::print();
 		cout << "height: " << height << endl;
-		cout << "width: " << width << endl;
+		cout << "width: " << width << endl<<endl;
+
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				cout << "* ";
+			}
+			cout << endl;
+		}
 	}
 };
 
@@ -121,14 +130,15 @@ class Circle :public Shape {
 	const float pi = 3.14;
 	int radius;
 public:
-	Circle(int r) :radius(r) {}
+	Circle(int r) :Shape("Circle"),radius(r) {}
 
 	void getArea()override {
 		cout << "circle area: " << (pi)*radius * radius << endl;
 	}
 
-	void print() {
-		getArea();
+	void print()override {
+		Shape::print();
+		cout << "radius: " << radius << endl;
 	}
 };
 
@@ -136,14 +146,27 @@ class RectTriangle:public Shape {
 	int a;
 	int b;
 public:
-	RectTriangle(int a,int b):a(a),b(b){}
+	RectTriangle(int a,int b):Shape("RectTriangle"),a(a),b(b){}
 
 	void getArea()override {
 		cout << "rectangular triangle area: " <<(a*b)/2  << endl;
 	}
 
-	void print() {
-		getArea();
+	void print()override {
+		Shape::print();
+		cout << "side 1: " << a << endl;
+		cout << "side 2: " << b << endl;
+
+		for (int i = 0; i < b; i++)
+		{
+			for (int j = 0; j < a; j++)
+			{
+				if (j<=i)
+					cout << "* ";
+				
+			}
+			cout << endl;
+		}
 	}
 };
 
@@ -151,33 +174,48 @@ class Triangle:public Shape {
 	int side;
 	int height;
 public:
-	Triangle(int s,int h):side(s),height(h){}
+	Triangle(int s,int h):Shape("Triangle"),side(s),height(h){}
 
 	void getArea()override {
 		cout << " triangle area: " << (side / 2) * height << endl;
 	}
 
-	void print() {
-		getArea();
+	void print()override {
+		Shape::print();
+		cout << "height: " << height << endl;
+		cout << "side: " << side << endl;
+
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j <=i; j++)
+			{
+				cout << "* ";
+			}
+			cout << endl;
+		}
 	}
 };
-class Trap {
+
+
+class Trap:public Shape {
 	int middleLine;
 	int height;
 public:
-	Trap(int m,int h):middleLine(m),height(h){}
+	Trap(int m,int h):Shape("Trapecia"),middleLine(m),height(h){}
 	
 	void getArea()override {
 		cout << " trap area: " << middleLine * height << endl;
 	}
 
-	void print() {
-		getArea();
+	void print()override {
+		Shape::print();
+		cout << "middleLine: " << middleLine << endl;
+		cout << "height: " << height << endl;
 	}
 };
 
 
-void testShape(Shape s) {
+void testShape(Shape& s) {
 	s.getArea();
 	s.print();
 }
@@ -185,11 +223,17 @@ void testShape(Shape s) {
 
 int main()
 {
+	Rectangle1 r(5, 5);
+	Circle c(5);
+	RectTriangle rt(7, 6);
+	Triangle t(8, 6);
+	Trap tr(4, 8);
 
-	Rectangle r(2, 6);
-
-
-
+	testShape(r);
+	testShape(c);
+	testShape(rt);
+	testShape(t);
+	testShape(tr);
 
 
 
